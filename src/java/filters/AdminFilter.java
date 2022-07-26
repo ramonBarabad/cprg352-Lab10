@@ -26,37 +26,36 @@ import models.User;
  */
 public class AdminFilter implements Filter {
 
-   
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    
+
         // before we can use HttpServletRequest or HttpServletResponse methods
         // we must cast the ServletRequest and ServletResponse objects as the correct type
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpSession session = httpRequest.getSession();
-        
-        User user  = (User)session.getAttribute("user");
-        
-        if(!user.getRole().getRoleId().equals(1)){
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.sendRedirect("notes");
-            return;
+
+        User user = (User) session.getAttribute("user");
+
+        if (user != null) {
+            if (!user.getRole().getRoleId().equals(1)) {
+                HttpServletResponse httpResponse = (HttpServletResponse) response;
+                httpResponse.sendRedirect("notes");
+                return;
+            }
         }
-        
+
         // any code before chain.doFilter
         // will be executed before the servlet
         chain.doFilter(request, response);
         // any code after chain.doFilter
         //session.setAttribute("isAdmin",true);
-    
-    
+
     }
 
-     @Override
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
-    
     @Override
     public void destroy() {
     }
