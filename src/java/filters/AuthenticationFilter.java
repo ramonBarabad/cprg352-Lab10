@@ -1,4 +1,4 @@
-package filters;
+ package filters;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -18,6 +18,7 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+       
         // before we can use HttpServletRequest or HttpServletResponse methods
         // we must cast the ServletRequest and ServletResponse objects as the correct type
         HttpServletRequest httpRequest = (HttpServletRequest) request;

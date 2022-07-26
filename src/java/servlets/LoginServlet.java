@@ -11,6 +11,8 @@ import services.AccountService;
 
 public class LoginServlet extends HttpServlet {
 
+    private static int ROLE_ADMIN = 1;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,6 +31,7 @@ public class LoginServlet extends HttpServlet {
         AccountService as = new AccountService();
         User user = as.login(email, password);
         
+        
         if (user == null) {
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             return;
@@ -36,8 +39,9 @@ public class LoginServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         session.setAttribute("email", email);
+        session.setAttribute("user",user);
         
-        if (user.getRole().getRoleId() == 1) {
+        if (user.getRole().getRoleId() == ROLE_ADMIN) {
             response.sendRedirect("admin");
         } else {
             response.sendRedirect("notes");
